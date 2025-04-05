@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2;
+  padding: 2rem;
+}
+
+header {
+  background-color: #2979ff;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sweb,
+.workshop {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+footer {
+  background-color: #2979ff;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  font-weight: bold;
+}
