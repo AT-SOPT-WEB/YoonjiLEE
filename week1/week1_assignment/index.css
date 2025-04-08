@@ -179,10 +179,36 @@ p {
 }
 .pics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
   padding: 5rem;
   max-width: 100%;
+}
+
+@media (min-width: 80rem) {
+  .pics-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+@media (max-width: 80rem) and (min-width: 64rem) {
+  .pics-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 64rem) and (min-width: 48rem) {
+  .pics-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 48rem) and (min-width: 32rem) {
+  .pics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 32rem) {
+  .pics-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .card {
@@ -215,10 +241,71 @@ p {
 }
 
 .heart:hover {
-  color: rgb(173, 173, 173);
+  color: red;
 }
 
 .develop {
   background-color: rgb(239, 187, 255);
   border-radius: 12px;
+}
+
+.infinite-scroll {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fff0fb;
+  padding: 1rem 0;
+  height: 15rem;
+}
+
+.scroll-list {
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 1rem;
+}
+
+.scroll-list.first {
+  animation: scroll-left 20s linear infinite;
+}
+
+.scroll-list.second {
+  animation: scroll-left-second 20s linear infinite;
+  margin-left: 1rem;
+}
+
+.scroll-list li {
+  flex-shrink: 0;
+  width: 15rem;
+  height: 15rem;
+  list-style: none;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.scroll-list img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes scroll-left-second {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
