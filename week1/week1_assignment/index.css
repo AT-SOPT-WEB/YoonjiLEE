@@ -55,8 +55,11 @@ header h1 {
 
 .sidebar {
   width: 20rem;
-  background-color: #f4f4f4;
+  background-color: #fff0fb;
   padding: 2rem 1rem;
+  position: sticky;
+  top: 4rem;
+  height: fit-content;
 }
 .sidebar a {
   text-decoration: none;
