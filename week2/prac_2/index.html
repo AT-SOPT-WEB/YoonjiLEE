@@ -1,0 +1,27 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="addListBtn">리스트 추가하기</button>
+    <ul id="ul"></ul>
+
+    <script>
+      const button = document.getElementById("addListBtn");
+      const ul = document.getElementById("ul");
+
+      button.addEventListener("click", function () {
+        for (let i = 1; i <= 3000; i++) {
+          const li = document.createElement("li");
+          li.textContent = i;
+          ul.appendChild(li);
+        }
+      });
+    </script>
+  </body>
+</html>
