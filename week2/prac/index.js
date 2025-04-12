@@ -1,35 +1,52 @@
-const btn = document.querySelector(".add-button")
+const btn = document.querySelector(".add-button");
+const input = document.getElementById("todo-input");
+const todoList = document.getElementById("todo-list");
 
-const buttonClick = () =>{
-    const input=document.getElementById("todo-input"); /*요소를 집어온거야*/
-    /*리스트를 뽑아와야 돼*/
-    const li=document.createElement("li");
-    li.textContent=input.value; 
-
-    //삭제
-    const deletebtn=document.createElement('button'); 
-    deletebtn.textContent="삭제";
-    deletebtn.classList.add("dleeehfhejfhejfhe");
-    deletebtn.addEventListener("click", function(){
-        ul.removeChild(li);
-
-    });
-
-    li.appendChild(deletebtn);
-
-    const ul=document.getElementById("todo-list");
-    ul.appendChild(li);
-
-
+const saveToLocalStorage = (todos) => {
+  localStorage.setItem("todos", JSON.stringify(todos));
+};
+const loadFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("todos")) || [];
 };
 
-btn.addEventListener("click", buttonClick);
+const addListItem = (text) => {
+  const li = document.createElement("li");
+  li.textContent = text;
 
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "삭제";
 
+  deleteBtn.addEventListener("click", () => {
+    li.remove();
+    const todos = loadFromLocalStorage().filter((todo) => todo !== text);
+    saveToLocalStorage(todos);
+  });
 
+  li.appendChild(deleteBtn);
+  todoList.appendChild(li);
+};
 
+const handleAdd = () => {
+  const value = input.value.trim();
+  if (!value) return;
 
+  addListItem(value);
 
-/*document.querySelectorAll -> 모든걸 반환함 */
-/*querySelector 은 클래스나 아이디값 됨.
-/*getElementById 는 html에서 정의한 아이디값 그냥 ""안에 넣어주면 됨. Id 만 됨*/
+  const todos = loadFromLocalStorage();
+  todos.push(value);
+  saveToLocalStorage(todos);
+
+  input.value = "";
+};
+
+btn.addEventListener("click", handleAdd);
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleAdd();
+  }
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+  const todos = loadFromLocalStorage();
+  todos.forEach(addListItem);
+});
