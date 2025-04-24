@@ -49,10 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const title = input.value.trim();
     const priority = prioritySelect.value;
 
-    if(!title || !priority) {
+    if (!title || !priority) {
       modal.style.display = 'block';
       return;
     }
+    modalConfirm.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
 
     const todos = getTodos();
     const newTodo = {
@@ -72,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
   completeBtn.addEventListener('click', () => {
     const todos = getTodos();
     const checkboxes = document.querySelectorAll('.todo-checkbox');
-    //미완료 -> 완료
+    //미완료 <-> 완료
     checkboxes.forEach((checkbox) => {
       if (checkbox.checked) {
         const todoId = Number(checkbox.dataset.id);
@@ -81,11 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
           todo.completed = !todo.completed; 
         }
       }
-
     });
-
     saveTodos(todos);
     renderTodos(todos); 
   });
-  
+
 });
