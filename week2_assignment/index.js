@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const selectAllCheckbox = document.getElementById('select-all');
   const todoListElement = document.getElementById('todo-list');
-  const addBtn = document.getElementById('add-button');
+  const addBtn = document.getElementById('add-btn');
   const input= document.getElementById('todo-input');
   const prioritySelect= document.getElementById('priority-select');
   const completeBtn= document.getElementById('complete-button');
-  const selectAllBtn= document.getElementById('select-all-button');
   const modal= document.getElementById('modal');
   const modalConfirm= document.getElementById('modal-confirm');
   const modalCancel= document.getElementById('modal-cancel');
@@ -39,4 +39,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   renderTodos(getTodos());
+
+  selectAllCheckbox.addEventListener('change', (e) => {
+    const checkboxes = document.querySelectorAll('.todo-checkbox');
+    checkboxes.forEach(cb => {
+      cb.checked = e.target.checked;
+    });
+  });
+
+  addBtn.addEventListener('click', () => {
+    const title = input.value.trim();
+    const priority = prioritySelect.value;
+
+    if(!title || !priority) {
+      modal.style.display = 'block';
+      return;
+    }
+
+    const todos = getTodos();
+    const newTodo = {
+      id: Date.now(),
+      title,
+      completed: false,
+      priority: Number(priority),
+    };
+    todos.push(newTodo);
+    saveTodos(todos);
+    renderTodos(todos);
+
+    input.value = '';
+    prioritySelect.value = '1';
+  });
 });
