@@ -108,7 +108,7 @@ body {
     justify-content: flex-end;
 }
 
-#delete-button, #complete-button {
+#delete-button, #complete-button, #uncomplete-button{
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 5px;
@@ -122,6 +122,11 @@ body {
 
 #complete-button {
     background-color: #2196F3;
+    color: white;
+}
+
+#uncomplete-button {
+    background-color: #4CAF50;
     color: white;
 }
 

@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const completeBtn= document.getElementById('complete-button');
   const modal= document.getElementById('modal');
   const modalConfirm= document.getElementById('modal-confirm');
-  const modalCancel= document.getElementById('modal-cancel');
 
   function getTodos(){
     return JSON.parse(localStorage.getItem('todos')) || [];
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
       todoListElement.appendChild(row);
     });
-    // 전체 선택/해제
     updateSelectAllState();
   }
   function updateSelectAllState(){
@@ -70,4 +68,24 @@ document.addEventListener('DOMContentLoaded', () => {
     input.value = '';
     prioritySelect.value = '1';
   });
+
+  completeBtn.addEventListener('click', () => {
+    const todos = getTodos();
+    const checkboxes = document.querySelectorAll('.todo-checkbox');
+    //미완료 -> 완료
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        const todoId = Number(checkbox.dataset.id);
+        const todo = todos.find(todo => todo.id === todoId);
+        if (todo) {
+          todo.completed = !todo.completed; 
+        }
+      }
+
+    });
+
+    saveTodos(todos);
+    renderTodos(todos); 
+  });
+  
 });
