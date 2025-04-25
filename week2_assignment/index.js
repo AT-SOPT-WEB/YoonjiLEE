@@ -47,12 +47,25 @@ document.addEventListener('DOMContentLoaded', () => {
     todoListElement.innerHTML = '';
     todos.forEach(todo => {
       const row = document.createElement('tr');
+      row.draggable = true;
+      row.dataset.id = todo.id;
+      
       row.innerHTML = `
         <td><input type="checkbox" class="todo-checkbox" data-id="${todo.id}"></td>
         <td>${todo.priority}</td>
         <td>${todo.completed ? '✅' : '❌'}</td>
         <td class="title-cell">${todo.title}</td>
       `;
+
+      row.addEventListener('dragstart', (e) => {
+        e.target.classList.add('dragging');
+        e.dataTransfer.setData('text/plain', todo.id);
+      });
+
+      row.addEventListener('dragend', (e) => {
+        e.target.classList.remove('dragging');
+      });
+
       todoListElement.appendChild(row);
 
       const checkbox = row.querySelector('.todo-checkbox');
@@ -179,5 +192,39 @@ document.addEventListener('DOMContentLoaded', () => {
       selectAllCheckbox.checked = false;
     }
   });
-  
+
+  // 드래그 오버 이벤트 처리
+  todoListElement.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    const draggingRow = document.querySelector('.dragging');
+    if (!draggingRow) return;
+
+    const siblings = [...todoListElement.querySelectorAll('tr:not(.dragging)')];
+    const nextSibling = siblings.find(sibling => {
+      const rect = sibling.getBoundingClientRect();
+      const middle = rect.top + rect.height / 2;
+      return e.clientY < middle;
+    });
+
+    if (nextSibling) {
+      todoListElement.insertBefore(draggingRow, nextSibling);
+    } else {
+      todoListElement.appendChild(draggingRow);
+    }
+  });
+
+  // 드롭 이벤트 처리
+  todoListElement.addEventListener('drop', (e) => {
+    e.preventDefault();
+    
+    // 순서가 변경된 할 일 목록 저장
+    const rows = [...todoListElement.querySelectorAll('tr')];
+    const todos = getTodos();
+    const newTodos = rows.map(row => {
+      const id = Number(row.dataset.id);
+      return todos.find(todo => todo.id === id);
+    }).filter(Boolean);  // undefined 제거
+
+    saveTodos(newTodos);
+  });
 });
