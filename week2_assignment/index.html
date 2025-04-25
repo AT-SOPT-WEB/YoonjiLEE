@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Todo-List</title>
+</head>
+<body>
+    <div class="todo-container">
+        <!--filtering-->
+        <div class="filter-section">
+            <button class="filter-button">전체</button>
+            <button class="filter-button">완료</button>
+            <button class="filter-button">미완료</button>
+            <div class="priority-section">
+                <select id="priority-filter">
+                    <option value="">중요도</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+        </div>
+        <!-- 할 일 추가 섹션 -->
+        <div class="add-section">
+            <input type="text" id="todo-input" placeholder="할 일을 입력하세요">
+            <select id="priority-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <button id="add-btn">추가</button>
+        </div>
+        <!-- Todo 테이블 -->
+        <div class="todo-table"> 
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="select-all">
+                        </th>
+                        <th>중요도</th>
+                        <th>완료됨</th>
+                        <th>할 일</th>
+                    </tr>
+                </thead>
+                <tbody id="todo-list"></tbody>
+            </table>
+        </div>
+        <div class="button-section">
+            <button id="delete-button">삭제</button>
+            <button id="complete-button">완료</button>
+        </div>
+    </div>
+    <!--modal   -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <p>할 일과 중요도를 모두 입력해주세요</p>
+            <button id="modal-confirm">확인</button>
+        </div>
+    </div>
+    <script src="data.js" defer></script>
+    <script src="index.js" defer></script>
+</body>
+</html>
