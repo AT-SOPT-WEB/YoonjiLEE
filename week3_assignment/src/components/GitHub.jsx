@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function Github() {
   const [input, setInput] = useState("");
@@ -91,7 +92,9 @@ export default function Github() {
         </nav>
 
         {userInfo.status === "pending" && (
-          <p className="text-center">로딩중...</p>
+          <div className="flex flex-col items-center justify-center py-8">
+            <AiOutlineLoading3Quarters className="animate-spin text-blue-500 text-4xl" />
+            </div>
         )}
         {userInfo.status === "rejected" && (
           <p className="text-center text-red-500">결과를 찾을 수 없습니다.</p>
