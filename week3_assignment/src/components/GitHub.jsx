@@ -2,6 +2,19 @@ import { useState } from "react";
 
 export default function Github() {
   const [input, setInput] = useState("");
+  const [userInfo, setUserInfo] = useState({ status: "idle", data: null });
+
+  const getUserInfo = async (user) => {
+    setUserInfo({ status: "pending", data: null });
+    try {
+      const response = await fetch(`https://api.github.com/users/${user}`);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const data = await response.json();
+      setUserInfo({ status: "resolved", data });
+    } catch {
+      setUserInfo({ status: "rejected", data: null });
+    }
+  };
 
   return (
     <main className="max-w-md mx-auto mt-8">
@@ -13,6 +26,7 @@ export default function Github() {
           className="flex gap-2 mb-4"
           onSubmit={(e) => {
             e.preventDefault();
+            if (input.trim()) getUserInfo(input.trim());
           }}
         >
           <input
@@ -28,6 +42,50 @@ export default function Github() {
           >
             검색
           </button>
+          {userInfo.status === "pending" && (
+            <p className="text-center">로딩중...</p>
+          )}
+          {userInfo.status === "rejected" && (
+            <p className="text-center text-red-500">결과를 찾을 수 없습니다.</p>
+          )}
+          {userInfo.status === "resolved" && userInfo.data && (
+            <article className="bg-white shadow rounded p-4 relative">
+              <button
+                className="absolute top-2 right-2 text-gray-400"
+                onClick={() => setUserInfo({ status: "idle", data: null })}
+                aria-label="사용자 정보 닫기"
+              >
+                ×
+              </button>
+              <a
+                href={userInfo.data.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={userInfo.data.avatar_url}
+                  alt="avatar"
+                  className="w-20 h-20 rounded-full mx-auto cursor-pointer"
+                />
+              </a>
+              <div className="text-center mt-2">
+                <a
+                  href={userInfo.data.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-lg hover:underline"
+                >
+                  {userInfo.data.name || userInfo.data.login}
+                </a>
+                <div className="text-gray-500">{userInfo.data.login}</div>
+                <div className="my-2">{userInfo.data.bio}</div>
+                <div className="flex justify-center gap-4 text-sm">
+                  <span>팔로워: {userInfo.data.followers}</span>
+                  <span>팔로잉: {userInfo.data.following}</span>
+                </div>
+              </div>
+            </article>
+          )}
         </form>
       </section>
     </main>
