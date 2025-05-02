@@ -33,11 +33,13 @@ export default function BaseballGame() {
       timerRef.current = setTimeout(resetGame, 3000);
     }
     if (status === "lose") {
-      setMessage(`😢 10회 실패! 정답은 ${answer}입니다. 5초 후 게임이 초기화됩니다.`);
+      setMessage(
+        `😢 10회 실패! 정답은 ${answer}입니다. 5초 후 게임이 초기화됩니다.`
+      );
       timerRef.current = setTimeout(resetGame, 5000);
     }
     return () => clearTimeout(timerRef.current);
-  }, [status]);
+  }, [answer, status]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,7 +53,8 @@ export default function BaseballGame() {
     }
     if (status !== "playing") return;
 
-    let strike = 0, ball = 0;
+    let strike = 0,
+      ball = 0;
     for (let i = 0; i < 3; i++) {
       if (input[i] === answer[i]) strike++;
       else if (answer.includes(input[i])) ball++;
@@ -73,26 +76,39 @@ export default function BaseballGame() {
   return (
     <main className="max-w-md mx-auto mt-8">
       <section aria-labelledby="baseball-game-title">
-        <h2 id="baseball-game-title" className="sr-only">숫자야구 게임</h2>
+        <h2 id="baseball-game-title" className="sr-only">
+          숫자야구 게임
+        </h2>
         <form className="flex gap-2 mb-4" onSubmit={handleSubmit}>
           <input
             className="flex-1 border rounded px-3 py-2"
             placeholder="3자리 숫자"
             value={input}
             maxLength={3}
-            onChange={e => setInput(e.target.value.replace(/[^0-9]/g, ""))}
+            onChange={(e) => setInput(e.target.value.replace(/[^0-9]/g, ""))}
             disabled={status !== "playing"}
             aria-label="3자리 숫자 입력"
           />
-          <button className="bg-blue-500 text-white px-4 py-2 rounded" type="submit" disabled={status !== "playing"}>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+            type="submit"
+            disabled={status !== "playing"}
+          >
             입력
           </button>
         </form>
-        <p className="mb-2 text-center" aria-live="polite">{message}</p>
+        <p className="mb-2 text-center" aria-live="polite">
+          {message}
+        </p>
         <p className="mb-2 text-center text-gray-500">시도: {count} / 10</p>
-        <ul className="bg-white rounded shadow p-4 min-h-[60px]" aria-label="이전 시도 결과">
+        <ul
+          className="bg-white rounded shadow p-4 min-h-[60px]"
+          aria-label="이전 시도 결과"
+        >
           {history.map((h, i) => (
-            <li key={i} className="mb-1">{h}</li>
+            <li key={i} className="mb-1">
+              {h}
+            </li>
           ))}
         </ul>
       </section>
